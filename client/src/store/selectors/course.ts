@@ -23,7 +23,7 @@ export const courseDetails = selector({
 export const courseTitle = selector({
   key: "courseTitleState",
   get: ({ get }) => {
-    const state = get(courseState);
+    const state = get(courseState) as { course: { title: string } | null };
     if (state.course) {
       return state.course.title;
     }
@@ -34,7 +34,7 @@ export const courseTitle = selector({
 export const coursePrice = selector({
   key: "coursePriceState",
   get: ({ get }) => {
-    const state = get(courseState);
+    const state = get(courseState) as { course: { price: number } | null };
     if (state.course) {
       return state.course.price;
     }
@@ -45,7 +45,7 @@ export const coursePrice = selector({
 export const courseImage = selector({
   key: "courseImageState",
   get: ({ get }) => {
-    const state = get(courseState);
+    const state = get(courseState) as { course: { image: string } | null };
     if (state.course) {
       return state.course.image;
     }

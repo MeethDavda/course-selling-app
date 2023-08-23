@@ -30,10 +30,10 @@ function Course() {
       .then((res) => {
         setCourse({ isLoading: false, course: res.data.course });
       })
-      .catch((e) => {
+      .catch(() => {
         setCourse({ isLoading: false, course: null });
       });
-  }, []);
+  }, [courseId, setCourse]);
 
   if (courseLoading) {
     return <Loading />;
@@ -107,7 +107,7 @@ function UpdateCard() {
 
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
-      <Card varint={"outlined"} style={{ maxWidth: 600, marginTop: 200 }}>
+      <Card variant={"outlined"} style={{ maxWidth: 600, marginTop: 200 }}>
         <div style={{ padding: 20 }}>
           <Typography style={{ marginBottom: 10 }}>
             Update course details

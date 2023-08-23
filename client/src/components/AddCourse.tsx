@@ -21,7 +21,7 @@ function AddCourse() {
     >
       <div style={{ display: "flex", justifyContent: "center" }}>
         <Card
-          varint={"outlined"}
+          variant={"outlined"}
           style={{ width: 400, padding: 20, marginTop: 30, height: "100%" }}
         >
           <TextField

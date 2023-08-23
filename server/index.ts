@@ -1,3 +1,4 @@
+require("dotenv").config();
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
@@ -14,9 +15,6 @@ app.use("/user", userRouter);
 
 // Connect to MongoDB
 // DONT MISUSE THIS THANKYOU!!
-mongoose.connect(
-  "mongodb+srv://Meeth:Legolego2002@cluster0.l6dizcm.mongodb.net/courses",
-  { dbName: "courses" }
-);
+mongoose.connect(process.env.MONGO_URI, { dbName: "courses" });
 
 app.listen(3000, () => console.log("Server running on port 3000"));

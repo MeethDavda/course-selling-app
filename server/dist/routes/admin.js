@@ -17,7 +17,19 @@ const db_1 = require("../db");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const auth_1 = require("../middleware/auth");
 const auth_2 = require("../middleware/auth");
+const zod_1 = require("zod");
 const router = express_1.default.Router();
+const adminType = zod_1.z.object({
+    username: zod_1.z.string().min(3),
+    password: zod_1.z.string(),
+});
+const courseType = zod_1.z.object({
+    title: zod_1.z.string(),
+    description: zod_1.z.string(),
+    price: zod_1.z.number(),
+    imageLink: zod_1.z.string(),
+    published: zod_1.z.boolean(),
+});
 router.get("/me", auth_2.authenticateJwt, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const admin = yield db_1.Admin.findOne({ _is: req.headers["userId"] });
     if (!admin) {
@@ -29,28 +41,49 @@ router.get("/me", auth_2.authenticateJwt, (req, res) => __awaiter(void 0, void 0
     });
 }));
 router.post("/signup", (req, res) => {
-    const { username, password } = req.body;
+    // const { username, password } = req.body;
+    const parsedInput = adminType.safeParse(req.body);
+    if (parsedInput.success == false) {
+        res.status(411).json({
+            error: parsedInput.error,
+        });
+        return;
+    }
     function callback(admin) {
         if (admin) {
             res.status(403).json({ message: "Admin already exists" });
         }
         else {
-            const obj = { username: username, password: password };
+            const obj = {
+                username: parsedInput.data.username,
+                password: parsedInput.data.password,
+            };
             const newAdmin = new db_1.Admin(obj);
             newAdmin.save();
-            const token = jsonwebtoken_1.default.sign({ username, role: "admin" }, auth_1.SECRET, {
+            const token = jsonwebtoken_1.default.sign({ username: obj.username, role: "admin" }, auth_1.SECRET, {
                 expiresIn: "1h",
             });
             res.json({ message: "Admin created successfully", token });
         }
     }
-    db_1.Admin.findOne({ username }).then(callback);
+    db_1.Admin.findOne({ username: parsedInput.data.username }).then(callback);
 });
 router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username, password } = req.body;
-    const admin = yield db_1.Admin.findOne({ username, password });
+    // const { username, password } = req.body;
+    const parsedInput = adminType.safeParse(req.body);
+    // console.log(parsedInput)
+    if (parsedInput.success == false) {
+        res.status(411).json({
+            error: parsedInput.error,
+        });
+        return;
+    }
+    const admin = yield db_1.Admin.findOne({
+        username: parsedInput.data.username,
+        password: parsedInput.data.password,
+    });
     if (admin) {
-        const token = jsonwebtoken_1.default.sign({ username, role: "admin" }, auth_1.SECRET, {
+        const token = jsonwebtoken_1.default.sign({ username: parsedInput.data.username, role: "admin" }, auth_1.SECRET, {
             expiresIn: "1h",
         });
         res.json({ message: "Logged in successfully", token });
@@ -60,7 +93,15 @@ router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 }));
 router.post("/courses", auth_2.authenticateJwt, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const course = new db_1.Course(req.body);
+    const parsedInput = courseType.safeParse(req.body);
+    // console.log(parsedInput);
+    if (parsedInput.success == false) {
+        res.status(411).json({
+            error: parsedInput.error,
+        });
+        return;
+    }
+    const course = new db_1.Course(parsedInput.data);
     yield course.save();
     res.json({ message: "Course created successfully", courseId: course.id });
 }));

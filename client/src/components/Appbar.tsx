@@ -32,12 +32,12 @@ function Appbar() {
             navigate("/");
           }}
         >
-          <Typography variant={"h6"}>Coursera</Typography>
+          <Typography variant={"h3"}>Coursera</Typography>
         </div>
 
         <div style={{ display: "flex" }}>
           <div style={{ marginRight: 10, display: "flex" }}>
-            <div style={{ marginRight: 10 }}>
+            <div style={{ marginRight: 10, marginTop: 10 }}>
               <Button
                 onClick={() => {
                   navigate("/addcourse");
@@ -47,7 +47,7 @@ function Appbar() {
               </Button>
             </div>
 
-            <div style={{ marginRight: 10 }}>
+            <div style={{ marginRight: 10, marginTop: 10 }}>
               <Button
                 onClick={() => {
                   navigate("/courses");

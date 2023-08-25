@@ -33,11 +33,24 @@ function Courses() {
 
   return (
     <div
-      style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        marginTop: 100,
+      }}
     >
-      {courses.map((course, index) => {
-        return <Course course={course} key={index} />;
-      })}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          width: 1500,
+          flexWrap: "wrap",
+        }}
+      >
+        {courses.map((course, index) => {
+          return <Course course={course} key={index} />;
+        })}
+      </div>
     </div>
   );
 }
@@ -52,6 +65,7 @@ export function Course({ course }: courseProps) {
         width: 300,
         minHeight: 200,
         padding: 20,
+        borderRadius: 20,
       }}
     >
       <Typography textAlign={"center"} variant="h5">

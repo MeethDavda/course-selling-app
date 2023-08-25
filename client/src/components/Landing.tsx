@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userEmailState } from "../store/selectors/userEmail.js";
 import { isUserLoading } from "../store/selectors/isUserLoading.js";
+import home from "../assets/home.svg";
 
 export const Landing = () => {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ export const Landing = () => {
     <div>
       <Grid container style={{ padding: "5vw" }}>
         <Grid item xs={12} md={6} lg={6}>
-          <div style={{ marginTop: 100 }}>
+          <div style={{ marginTop: 100, marginLeft: 200 }}>
             <Typography variant={"h2"}>Coursera Admin</Typography>
             <Typography variant={"h5"}>
               A place to learn, earn and grow
@@ -48,7 +49,7 @@ export const Landing = () => {
           <div></div>
         </Grid>
         <Grid item xs={12} md={6} lg={6} style={{ marginTop: 20 }}>
-          <img src={"/class.jpeg"} width={"100%"} />
+          <img src={home} width={"70%"} />
         </Grid>
       </Grid>
     </div>
